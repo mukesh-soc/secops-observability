@@ -4,3 +4,4 @@
 - `secops-observability/`: my own extended project (instrumented API, alerts, provisioned dashboards, CI/security scanning).
 
 Both use Grafana on port 3001, so run one at a time (`docker compose down` in the other first).
+# secops-observability
