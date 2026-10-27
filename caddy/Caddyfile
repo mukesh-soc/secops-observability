@@ -1,0 +1,23 @@
+# DOMAIN=example.com gives automatic HTTPS (Let's Encrypt). Unset = plain HTTP on :80.
+{$DOMAIN::80} {
+	encode gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		Referrer-Policy no-referrer
+		-Server
+	}
+
+	# Never expose raw metrics publicly; Prometheus scrapes the app internally.
+	handle /metrics {
+		respond "Not found" 404
+	}
+
+	handle /grafana* {
+		reverse_proxy grafana:3000
+	}
+
+	handle {
+		reverse_proxy app:8000
+	}
+}
